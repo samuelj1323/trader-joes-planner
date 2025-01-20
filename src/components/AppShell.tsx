@@ -13,6 +13,8 @@ const AppShell: React.FC<AppShellProps> = ({ children }) => {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
+        padding: 0,
+        margin: 0,
       }}
     >
       <ToolBar />

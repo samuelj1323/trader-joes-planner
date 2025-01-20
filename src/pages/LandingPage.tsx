@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 
 const LandingPage = () => {
   const theme = useTheme();
+  // TODO Landing page needs to be like exploring the store, adding items to cart.
   return (
     <div
       style={{

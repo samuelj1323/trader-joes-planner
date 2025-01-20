@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import LandingPage from "./pages/LandingPage";
 import "./App.css";
-i;
 import { ThemeProviderWrapper } from "./context/theme";
-
+import AppShell from "./components/AppShell";
+import { BrowserRouter, Routes, Route } from "react-router";
 function App() {
   return (
     <div>
-      <ThemeProviderWrapper>
-        <h3>hello world</h3>
-      </ThemeProviderWrapper>
+      <BrowserRouter>
+        <ThemeProviderWrapper>
+          <AppShell>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+            </Routes>
+          </AppShell>
+        </ThemeProviderWrapper>
+      </BrowserRouter>
     </div>
   );
 }

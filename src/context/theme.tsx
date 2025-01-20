@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const ThemeContext = createContext();
+const ThemeContext = createContext<
+  | {
+      theme: ReturnType<typeof createTheme>;
+      toggleTheme: () => void;
+    }
+  | undefined
+>(undefined);
 
 const darkTheme = createTheme({
   palette: {
@@ -51,7 +57,11 @@ const lightTheme = createTheme({
   },
 });
 
-export const ThemeProviderWrapper = ({ children }) => {
+export const ThemeProviderWrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [darkMode, setDarkMode] = useState(false);
 
   const toggleTheme = () => {

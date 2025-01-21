@@ -1,8 +1,11 @@
-import { useState, useCallback } from "react";
+import { useEffect } from "react";
 import { Typography, Grid2 as Grid } from "@mui/material";
 import CartCard, { CartItem } from "../components/CartCard";
+import { useSelector, useDispatch } from "react-redux";
+import { setCartItems } from "../context/cartSlice";
 
 const Cart = () => {
+  const dispatch = useDispatch();
   const initialCartItems: CartItem[] = [
     {
       name: "Beef New york strip steak",
@@ -45,28 +48,31 @@ const Cart = () => {
       id: 5,
     },
   ];
-  const [cartItems, setCartItems] = useState(initialCartItems);
-  // This page should be like a list of all the items in your cart. Vertically stacked, an image present, and like the price that gets computed at the end.
+  useEffect(() => {
+    dispatch(setCartItems(initialCartItems));
+  }, []);
 
-  const totalPrice = () => {
-    return cartItems.reduce((acc, item) => acc + item.price * item.amount, 0);
-  };
+  const cartItems = useSelector((state: CartItem[]) => state.cart.cartItems);
+  // This page should be like a list of all the items in your cart. Vertically stacked, an image present, and like the price that gets computed at the end.
 
   const handleRemove = (item: CartItem) => {
     const newList = cartItems.filter((i) => {
       return i.id !== item.id;
     });
-    setCartItems(newList);
+    dispatch(setCartItems(newList));
   };
+
   const handleSubtract = (item: CartItem) => {
     const newList = cartItems.map((i) => {
       if (i.id === item.id) {
-        return { ...i, amount: i.amount - 1 };
+        if (i.amount > 1) return { ...i, amount: i.amount - 1 };
+        else return { ...i, amount: 0 };
       }
       return i;
     });
-    setCartItems(newList);
+    dispatch(setCartItems(newList));
   };
+
   const handleAdd = (item: CartItem) => {
     const newList = cartItems.map((i) => {
       if (i.id === item.id) {
@@ -74,7 +80,11 @@ const Cart = () => {
       }
       return i;
     });
-    setCartItems(newList);
+    dispatch(setCartItems(newList));
+  };
+
+  const totalPrice = () => {
+    return cartItems.reduce((acc, item) => acc + item.price * item.amount, 0);
   };
 
   return (

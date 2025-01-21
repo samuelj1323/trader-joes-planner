@@ -52,18 +52,18 @@ const Cart = () => {
     dispatch(setCartItems(initialCartItems));
   }, []);
 
-  const cartItems = useSelector((state: CartItem[]) => state.cart.cartItems);
+  const cartItems = useSelector((state: any) => state.cart.cartItems);
   // This page should be like a list of all the items in your cart. Vertically stacked, an image present, and like the price that gets computed at the end.
 
   const handleRemove = (item: CartItem) => {
-    const newList = cartItems.filter((i) => {
+    const newList = cartItems.filter((i: CartItem) => {
       return i.id !== item.id;
     });
     dispatch(setCartItems(newList));
   };
 
   const handleSubtract = (item: CartItem) => {
-    const newList = cartItems.map((i) => {
+    const newList = cartItems.map((i: CartItem) => {
       if (i.id === item.id) {
         if (i.amount > 1) return { ...i, amount: i.amount - 1 };
         else return { ...i, amount: 0 };
@@ -74,7 +74,7 @@ const Cart = () => {
   };
 
   const handleAdd = (item: CartItem) => {
-    const newList = cartItems.map((i) => {
+    const newList = cartItems.map((i: CartItem) => {
       if (i.id === item.id) {
         return { ...i, amount: i.amount + 1 };
       }
@@ -84,14 +84,17 @@ const Cart = () => {
   };
 
   const totalPrice = () => {
-    return cartItems.reduce((acc, item) => acc + item.price * item.amount, 0);
+    return cartItems.reduce(
+      (acc: number, item: CartItem) => acc + item.price * item.amount,
+      0
+    );
   };
 
   return (
     <div>
       <Typography variant="h3">My cart</Typography>
       <Grid container spacing={2}>
-        {cartItems.map((item) => (
+        {cartItems.map((item: CartItem) => (
           <CartCard
             key={item.id}
             item={item}

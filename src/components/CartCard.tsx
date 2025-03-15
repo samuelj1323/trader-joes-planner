@@ -1,30 +1,26 @@
 import {
   Grid2 as Grid,
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Button,
   CardActions,
+  CardMedia,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-export interface CartItem {
-  name: string;
-  price: number;
-  image: string;
-  amount: number;
-  id: number;
-}
+import { SimpleProduct } from "../types";
+import { getImageUrl } from "../utils";
+
 interface CartCardProps {
-  item: CartItem;
-  handleRemoveFromCart: (item: CartItem) => void;
-  handleAddToCart: (item: CartItem) => void;
-  handleSubtractFromCart: (item: CartItem) => void;
+  product: SimpleProduct;
+  handleRemoveFromCart: (item: SimpleProduct) => void;
+  handleAddToCart: (item: SimpleProduct) => void;
+  handleSubtractFromCart: (item: SimpleProduct) => void;
 }
 const CartCard = ({
-  item,
+  product,
   handleRemoveFromCart,
   handleAddToCart,
   handleSubtractFromCart,
@@ -32,44 +28,62 @@ const CartCard = ({
   return (
     <Grid size={4}>
       <Card>
-        <CardMedia
-          style={{ display: "flex", justifyContent: "center", marginTop: 10 }}
-        >
+        <CardMedia>
           <img
-            style={{ maxWidth: 200, width: "100%" }}
-            src={item?.image}
-            alt={item?.name}
+            src={getImageUrl(product)}
+            alt={product.item_title}
+            className="product-image"
+            onError={(e) => {
+              e.target.src = "https://placehold.co/200x200?text=No+Image";
+            }}
           />
         </CardMedia>
+
         <CardContent>
-          <Typography variant="h5">{item?.name}</Typography>
-          <Typography variant="body1">{"$" + item?.price}</Typography>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
-          >
-            <Button
-              style={{ textTransform: "none" }}
-              onClick={() => handleSubtractFromCart(item)}
-            >
-              <RemoveIcon />
-            </Button>
-            <Typography variant="body1">{item.amount}</Typography>
-            <Button
-              style={{ textTransform: "none" }}
-              onClick={() => handleAddToCart(item)}
-            >
-              <AddIcon />
-            </Button>
-            <Button onClick={() => handleRemoveFromCart(item)}>
-              <DeleteIcon />
-            </Button>
-          </div>
+          ></div>
         </CardContent>
-        <CardActions></CardActions>
+        <h3>{product.item_title}</h3>
+        <p className="product-size">
+          {product.sales_size} {product.sales_uom_description}
+        </p>
+        {product.price_range && product.price_range.minimum_price && (
+          <p className="product-price">
+            ${product.price_range.minimum_price.final_price.value.toFixed(2)}
+          </p>
+        )}
+        {product.fun_tags && product.fun_tags.length > 0 && (
+          <div className="product-tags">
+            {product.fun_tags.map((tag, index) => (
+              <span key={index} className="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+        <CardActions>
+          <Button
+            style={{ textTransform: "none" }}
+            onClick={() => handleSubtractFromCart(product)}
+          >
+            <RemoveIcon />
+          </Button>
+          <Typography variant="body1">{product.quantity}</Typography>
+          <Button
+            style={{ textTransform: "none" }}
+            onClick={() => handleAddToCart(product)}
+          >
+            <AddIcon />
+          </Button>
+          <Button onClick={() => handleRemoveFromCart(product)}>
+            <DeleteIcon />
+          </Button>
+        </CardActions>
       </Card>
     </Grid>
   );

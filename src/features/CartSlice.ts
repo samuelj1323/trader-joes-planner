@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { SimpleProduct } from "../types"; // Import your SimpleProduct type
 
-interface CartItem extends SimpleProduct {
+export interface CartItem extends SimpleProduct {
   quantity: number;
   id: string; // Add id for cart item identification
 }

@@ -1,15 +1,7 @@
-import { AppBar, Toolbar, Typography, Link } from "@mui/material";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import NavLink from "../components/NavLink"; // Import the NavLink component
 
 const ToolBar = () => {
-  const CustomLink = ({ href, text }: { href: string; text: string }) => (
-    <Link
-      style={{ marginRight: "10px", textDecoration: "none" }}
-      color="inherit"
-      href={href}
-    >
-      <Typography variant="body1">{text}</Typography>
-    </Link>
-  );
   return (
     <AppBar
       position="sticky"
@@ -23,9 +15,9 @@ const ToolBar = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Trader Joes's Planner
         </Typography>
-        <CustomLink href="/" text="Home" />
-        <CustomLink href="/about" text="About" />
-        <CustomLink href="/cart" text="Cart" />
+        <NavLink to="/" text="Home" />
+        <NavLink to="/about" text="About" />
+        <NavLink to="/cart" text="Cart" />
       </Toolbar>
     </AppBar>
   );

@@ -1,58 +1,14 @@
-import { useEffect } from "react";
 import { Typography, Grid2 as Grid } from "@mui/material";
 import CartCard, { CartItem } from "../components/CartCard";
 import { useSelector, useDispatch } from "react-redux";
-import { setCartItems } from "../context/cartSlice";
+import { setItems } from "../features/CartSlice";
+import { RootState } from "../features/store"; // Adjust the path
+import ProductCard, { productType } from "../components/ProductCard";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const initialCartItems: CartItem[] = [
-    {
-      name: "Beef New york strip steak",
-      price: 13.99,
-      image:
-        "https://www.traderjoes.com/content/dam/trjo/products/m20801/56224.png/jcr:content/renditions/webp-1280.webp",
-      amount: 1,
-      id: 1,
-    },
-    {
-      name: "Beef New york strip steak",
-      price: 13.99,
-      image:
-        "https://www.traderjoes.com/content/dam/trjo/products/m20801/56224.png/jcr:content/renditions/webp-1280.webp",
-      amount: 1,
-      id: 2,
-    },
-    {
-      name: "Beef New york strip steak",
-      price: 13.99,
-      image:
-        "https://www.traderjoes.com/content/dam/trjo/products/m20801/56224.png/jcr:content/renditions/webp-1280.webp",
-      amount: 1,
-      id: 3,
-    },
-    {
-      name: "Beef New york strip steak",
-      price: 13.99,
-      image:
-        "https://www.traderjoes.com/content/dam/trjo/products/m20801/56224.png/jcr:content/renditions/webp-1280.webp",
-      amount: 1,
-      id: 4,
-    },
-    {
-      name: "Beef New york strip steak",
-      price: 13.99,
-      image:
-        "https://www.traderjoes.com/content/dam/trjo/products/m20801/56224.png/jcr:content/renditions/webp-1280.webp",
-      amount: 1,
-      id: 5,
-    },
-  ];
-  useEffect(() => {
-    dispatch(setCartItems(initialCartItems));
-  }, []);
-
-  const cartItems = useSelector((state: any) => state.cart.cartItems);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  // const cartItems = useSelector(cartSlice);
   // This page should be like a list of all the items in your cart. Vertically stacked, an image present, and like the price that gets computed at the end.
 
   const handleRemove = (item: CartItem) => {
@@ -94,14 +50,8 @@ const Cart = () => {
     <div>
       <Typography variant="h3">My cart</Typography>
       <Grid container spacing={2}>
-        {cartItems.map((item: CartItem) => (
-          <CartCard
-            key={item.id}
-            item={item}
-            handleAddToCart={handleAdd}
-            handleRemoveFromCart={handleRemove}
-            handleSubtractFromCart={handleSubtract}
-          />
+        {cartItems.map((item: productType) => (
+          <ProductCard {...item} />
         ))}
       </Grid>
       <Typography variant="h6">Total: ${totalPrice()}</Typography>

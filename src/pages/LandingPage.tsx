@@ -3,6 +3,7 @@ import productData from "../data/mockProducts.json";
 import ProductCard from "../components/ProductCard";
 import { RootState } from "../features/store"; // Adjust the path
 import { useSelector } from "react-redux";
+import { Snackbar } from "@mui/material";
 
 const TraderJoesProducts = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);

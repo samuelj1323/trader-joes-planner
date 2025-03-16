@@ -5,6 +5,8 @@ import {
   Typography,
   Button,
   CardActions,
+  useMediaQuery,
+  useTheme,
   CardMedia,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -12,7 +14,6 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { SimpleProduct } from "../types";
 import { getImageUrl } from "../utils";
-
 interface CartCardProps {
   product: SimpleProduct;
   handleRemoveFromCart: (item: SimpleProduct) => void;
@@ -25,8 +26,10 @@ const CartCard = ({
   handleAddToCart,
   handleSubtractFromCart,
 }: CartCardProps) => {
+  const theme = useTheme();
+  const isGreaterThanSm = useMediaQuery(theme.breakpoints.up("sm"));
   return (
-    <Grid size={4}>
+    <Grid size={isGreaterThanSm ? 4 : 12}>
       <Card>
         <CardMedia>
           <img

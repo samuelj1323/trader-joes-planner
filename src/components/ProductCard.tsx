@@ -8,6 +8,7 @@ const ProductCard = (product: SimpleProduct) => {
   const handleAddToCart = (product: SimpleProduct) => {
     dispatch(addItem(product));
   };
+
   return (
     <div key={product.sku} className="product-card">
       <img
@@ -36,7 +37,12 @@ const ProductCard = (product: SimpleProduct) => {
           ))}
         </div>
       )}
-      <button onClick={() => handleAddToCart(product)}>Add to cart</button>
+      <button
+        className="search-button"
+        onClick={() => handleAddToCart(product)}
+      >
+        Add to cart
+      </button>
     </div>
   );
 };
